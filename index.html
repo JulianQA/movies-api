@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/main.css">
+    <title>Movies</title>
+</head>
+
+<body>
+
+    <header class="header_container ">
+        <div class="header__phone">
+            <i class="phone-icon fa-solid fa-film"></i>
+            <div class="phone__menu-p">
+                <div class="menu-p__option">
+                    <span>Home</span>
+                    <i class="fa-solid fa-house"></i>
+                </div>
+                <div class="menu-p__option search-option">
+                    <span>Search</span>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+        <div class="header__desktop inactive">
+            <div class="desktop__main-icon">
+                <i class="fa-solid fa-film"></i>
+                <span>Movies</span>
+            </div>
+            <div class="desktop__option">
+                <div class="desktop__menu-d">
+                    <span>Search</span>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="desktop__menu-d">
+                    <span>trending</span>
+                    <i class="fa-sharp fa-solid fa-arrow-trend-up"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="main__movie ">
+            <article class="main-movie__container movie__container">
+                <!-- <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                    id="img-main" alt="">
+                <div class="movie__info">
+                    <div class="info__rating">6.7</div>
+                    <div class="info__watch">Watch</div>
+                </div> -->
+            </article>
+        </section>
+        <section class="current-movies ">
+            <h2>Current Movies</h2>
+            <article class="current-movies__container swipe-movies">
+                <!-- <div class="movie__container">
+                    <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                        alt="">
+                </div> -->
+            </article>
+        </section>
+
+        <section class="trending-movies ">
+            <h2>Trending Movies</h2>
+            <article class="trending-movies__container swipe-movies">
+                <!-- <div class="movie__container">
+                    <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                        alt="">
+                </div> -->
+            </article>
+        </section>
+
+        <section class="categories ">
+            <h2>Categories</h2>
+            <div class="categories__list">
+                <div class="categorie">Action</div>
+                <div class="categorie">Drama</div>
+                <div class="categorie">Romance</div>
+            </div>
+        </section>
+
+        <section class="search__results inactive">
+            <input type="text" class="search__input" placeholder="Vengadores"></input>
+            <div class="results__container">
+                <div class="movie__container">
+                    <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                        alt="">
+                </div>
+                <div class="movie__container">
+                    <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                        alt="">
+                </div>
+                <div class="movie__container">
+                    <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                        alt="">
+                </div>
+            </div>
+        </section>
+
+        <section class="movie__details inactive">
+            <i class="fa-solid fa-arrow-left"></i>
+            <div class="movie__detail">
+                <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg" alt="">
+                <div class="detail__title">Rick & Morty</div>
+                <p class="detail__rating">6.7</p>
+                <p class="detail__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores
+                    delectus, dolore perspiciatis voluptatum at dolorem reprehenderit accusamus aperiam facere ducimus
+                    quos officia distinctio deleniti vel quo fugiat. Dolorum, at voluptatum.</p>
+                <article class="categories">
+                    <h2>Categories</h2>
+                    <div class="categories__list">
+                        <div class="categorie">Action</div>
+                        <div class="categorie">Drama</div>
+                        <div class="categorie">Romance</div>
+                    </div>
+                </article>
+                <section class="related__movies">
+                    <h2>Related Movies</h2>
+                    <article class="related__movies__container swipe-movies">
+                        <div class="movie__container">
+                            <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                                alt="">
+                        </div>
+                        <div class="movie__container">
+                            <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                                alt="">
+                        </div>
+                        <div class="movie__container">
+                            <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/cvhNj9eoRBe5SxjCbQTkh05UP5K.jpg"
+                                alt="">
+                        </div>
+                    </article>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://kit.fontawesome.com/4a180993a8.js" crossorigin="anonymous"></script>
+    <script src="./JS/key.js"></script>
+    <script src="./JS/index.js"></script>
+</body>
+
+</html>
