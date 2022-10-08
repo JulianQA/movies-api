@@ -1,8 +1,5 @@
 const URL_API = 'https://api.themoviedb.org/3';
-const currentMoviesContainer = document.querySelector('.current-movies__container');
 const URL_IMAGES = 'https://image.tmdb.org/t/p/w300';
-const trendingMoviesContainer = document.querySelector('.trending-movies__container');
-const topMovieContainer = document.querySelector('.main-movie__container');
 
 async function fecthData(urlApi) {
     const response = await fetch(`${urlApi}?api_key=${API_KEY}`);
@@ -10,26 +7,30 @@ async function fecthData(urlApi) {
     return data;
 }
 
-(async function getCurrentMovies() {
+async function getCurrentMovies() {
     const response = await fecthData(URL_API + '/movie/now_playing');
     const movies = response.results;
     renderCurrentMovies(movies);
-})();
+};
 
-(async function getTrendingMovies() {
+async function getTrendingMovies() {
     const response = await fecthData(URL_API + '/trending/movie/week');
     const movies = response.results;
     renderTrendingMovies(movies);
-})();
+};
 
-(async function getTopMovie() {
+async function getTopMovie() {
     const response = await fecthData(URL_API + '/trending/movie/week');
     const movies = response.results;
     const moviesOrdered = movies.sort((a, b) => b.vote_average - a.vote_average);
     renderTopMovie(moviesOrdered);
-})();
+};
 
-
+async function getCategories() {
+    const response = await fecthData(URL_API + '/genre/movie/list');
+    const categories = response.genres;
+    renderCategories(categories);
+};
 
 
 function renderCurrentMovies(movies) {
@@ -84,3 +85,12 @@ function renderTopMovie(movies) {
     detailDiv.append(movieRating, moviePreview);
     topMovieContainer.append(movieImg, detailDiv);
 }
+
+function renderCategories(categories) {
+    categories.forEach(categorie => {
+        const categorieTitle = document.createElement('div');
+        categorieTitle.classList.add('categorie');
+        categorieTitle.textContent = categorie.name;
+        categoriesContainer.append(categorieTitle);
+    })
+};
