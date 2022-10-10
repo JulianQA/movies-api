@@ -1,8 +1,8 @@
 const URL_API = 'https://api.themoviedb.org/3';
 const URL_IMAGES = 'https://image.tmdb.org/t/p/w300';
 
-async function fecthData(urlApi) {
-    const response = await fetch(`${urlApi}?api_key=${API_KEY}`);
+async function fecthData(urlApi, queryParameters = '') {
+    const response = await fetch(`${urlApi}?api_key=${API_KEY}${queryParameters}`);
     const data = await response.json();
     return data;
 }
@@ -32,38 +32,26 @@ async function getCategories() {
     renderCategories(categories);
 };
 
+async function getMovieByCategory(name, id) {
+    const response = await fecthData(`${URL_API}/discover/movie`, `&with_genres=${id}`);
+    const movies = response.results;
+    console.log(response);
+    renderMoviesByCategory(name, movies);
+}
+
 
 function renderCurrentMovies(movies) {
-    movies.forEach(movie => {
-        const movieContainer = document.createElement('div');
-        movieContainer.classList.add('movie__container');
-
-        const movieImg = document.createElement('img');
-        movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path
-            }`);
-        movieImg.setAttribute('alt', movie.title);
-
-        movieContainer.append(movieImg);
-        currentMoviesContainer.append(movieContainer);
-    });
+    currentMoviesContainer.innerHTML = '';
+    renderMovieContainer(currentMoviesContainer, movies);
 }
 
 function renderTrendingMovies(movies) {
-    movies.forEach(movie => {
-        const movieContainer = document.createElement('div');
-        movieContainer.classList.add('movie__container');
-
-        const movieImg = document.createElement('img');
-        movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path
-            }`);
-        movieImg.setAttribute('alt', movie.title);
-
-        movieContainer.append(movieImg);
-        trendingMoviesContainer.append(movieContainer);
-    });
+    trendingMoviesContainer.innerHTML = '';
+    renderMovieContainer(trendingMoviesContainer, movies);
 }
 
 function renderTopMovie(movies) {
+    topMovieContainer.innerHTML = '';
     const movie = movies[0];
 
     const movieImg = document.createElement('img');
@@ -87,10 +75,40 @@ function renderTopMovie(movies) {
 }
 
 function renderCategories(categories) {
+    categoriesContainer.innerHTML = '';
     categories.forEach(categorie => {
         const categorieTitle = document.createElement('div');
         categorieTitle.classList.add('categorie');
         categorieTitle.textContent = categorie.name;
+        categorieTitle.addEventListener('click', () => location.hash = `#category=${categorie.name}-${categorie.id}`);
         categoriesContainer.append(categorieTitle);
     })
 };
+
+function renderMoviesByCategory(name, movies) {
+    mainSearchByCategorie.innerHTML = '';
+    const categoryTitle = document.createElement('h2');
+    categoryTitle.textContent = name;
+
+    const resultsContainer = document.createElement('div');
+    resultsContainer.classList.add('results__container');
+
+    mainSearchByCategorie.append(categoryTitle, resultsContainer);
+
+    renderMovieContainer(resultsContainer, movies);
+}
+
+function renderMovieContainer(container, movies) {
+    movies.forEach(movie => {
+        const movieContainer = document.createElement('div');
+        movieContainer.classList.add('movie__container');
+
+        const movieImg = document.createElement('img');
+        movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path
+            }`);
+        movieImg.setAttribute('alt', movie.title);
+
+        movieContainer.append(movieImg);
+        container.append(movieContainer);
+    });
+}

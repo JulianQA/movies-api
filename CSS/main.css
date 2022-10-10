@@ -43,6 +43,15 @@ html {
     font-weight: 700;
 }
 
+header>i {
+    font-size: 2rem;
+    margin: 0 12px 12px 12px;
+}
+
+header>i.inactive {
+    display: none;
+}
+
 /* *MAIN MOVIE */
 
 .main__movie .movie__container {
@@ -149,6 +158,10 @@ h2 {
     border-radius: 8px;
 }
 
+.categories__view h2 {
+    margin-left: 12px;
+    font-size: 1.8rem;
+}
 
 .inactive {
     display: none;
@@ -191,12 +204,6 @@ h2 {
     position: relative;
 }
 
-.movie__details i {
-    position: fixed;
-    font-size: 2rem;
-    margin-left: 12px;
-    margin-top: 12px;
-}
 
 .movie__detail>img {
     display: block;

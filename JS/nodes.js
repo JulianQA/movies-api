@@ -10,6 +10,7 @@ const mainMovieContainer = $('.main__movie');
 const mainCurrentMovieContainer = $('.current-movies');
 const mainTrendingMovieContainer = $('.trending-movies');
 const mainCategoriesContainer = $('.categories');
+const mainSearchByCategorie = $('.categories__view');
 
 //* Search
 const searchResultsView = $('.search__results');
@@ -20,7 +21,7 @@ const movieDetailView = $('.movie__details');
 //* Elements
 
 const goBackArrow = $('.fa-arrow-left');
-
-
+const goToSearchView = $('.search-option');
+const goToHomeView = $('.menu-p__option')
 
 
