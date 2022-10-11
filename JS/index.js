@@ -35,11 +35,25 @@ async function getCategories() {
 async function getMovieByCategory(name, id) {
     const response = await fecthData(`${URL_API}/discover/movie`, `&with_genres=${id}`);
     const movies = response.results;
-    console.log(response);
     renderMoviesByCategory(name, movies);
 }
 
+async function getMoviesBySearch(query) {
+    const response = await fecthData(`${URL_API}/search/movie`, `&query=${query}`);
+    const movies = response.results;
+    renderMoviesBySearch(movies);
+}
 
+async function getMovieDetail(id) {
+    const response = await fecthData(`${URL_API}/movie/${id}`);
+    renderMovieDetail(response);
+}
+
+async function getRelatedMovies(id) {
+    const response = await fecthData(`${URL_API}/movie/${id}/similar`);
+    const movies = response.results;
+    renderMovieContainer(relatedMoviesContainer, movies);
+}
 function renderCurrentMovies(movies) {
     currentMoviesContainer.innerHTML = '';
     renderMovieContainer(currentMoviesContainer, movies);
@@ -75,14 +89,7 @@ function renderTopMovie(movies) {
 }
 
 function renderCategories(categories) {
-    categoriesContainer.innerHTML = '';
-    categories.forEach(categorie => {
-        const categorieTitle = document.createElement('div');
-        categorieTitle.classList.add('categorie');
-        categorieTitle.textContent = categorie.name;
-        categorieTitle.addEventListener('click', () => location.hash = `#category=${categorie.name}-${categorie.id}`);
-        categoriesContainer.append(categorieTitle);
-    })
+    createcategories(categoriesContainer, categories);
 };
 
 function renderMoviesByCategory(name, movies) {
@@ -98,17 +105,47 @@ function renderMoviesByCategory(name, movies) {
     renderMovieContainer(resultsContainer, movies);
 }
 
+function renderMoviesBySearch(movies) {
+    resultsSection.innerHTML = '';
+    const resultsContainer = document.createElement('div');
+    resultsContainer.classList.add('results__container');
+
+    resultsSection.append(resultsContainer);
+
+    renderMovieContainer(resultsContainer, movies);
+}
+
+function renderMovieDetail(movie) {
+    movieTitle.textContent = movie.title;
+    movieRating.textContent = movie.vote_average.toFixed(1);
+    movieDescripition.textContent = movie.overview;
+    movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path}`);
+    createcategories(movieCategories, movie.genres)
+    getRelatedMovies(movie.id);
+}
 function renderMovieContainer(container, movies) {
     movies.forEach(movie => {
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie__container');
-
+        movieContainer.addEventListener('click', () => {
+            location.hash = '#movie=' + movie.id;
+        })
         const movieImg = document.createElement('img');
-        movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path
-            }`);
+        movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path}`);
         movieImg.setAttribute('alt', movie.title);
 
         movieContainer.append(movieImg);
         container.append(movieContainer);
     });
+}
+
+function createcategories(container, categories) {
+    container.innerHTML = '';
+    categories.forEach(categorie => {
+        const categorieTitle = document.createElement('div');
+        categorieTitle.classList.add('categorie');
+        categorieTitle.textContent = categorie.name;
+        categorieTitle.addEventListener('click', () => location.hash = `#category=${categorie.name}-${categorie.id}`);
+        container.append(categorieTitle);
+    })
 }

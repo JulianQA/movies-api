@@ -1,11 +1,14 @@
 goBackArrow.addEventListener('click', () => {
-    location.hash = '#home';
+    history.back();
 });
 goToSearchView.addEventListener('click', () => {
     location.hash = '#search=';
 });
 goToHomeView.addEventListener('click', () => {
     location.hash = '#home';
+})
+searchResults.addEventListener('click', () => {
+    location.hash = '#search=' + searchInput.value;
 })
 window.addEventListener('DOMContentLoaded', navigation, false);
 window.addEventListener('hashchange', navigation, false);
@@ -20,11 +23,11 @@ function navigation() {
     } else {
         homePage();
     }
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 }
 
 function homePage() {
-    console.log('home');
-
     goBackArrow.classList.add('inactive');
     mainMovieContainer.classList.remove('inactive');
     mainCurrentMovieContainer.classList.remove('inactive');
@@ -43,7 +46,6 @@ function homePage() {
     getCategories();
 }
 function searchPage() {
-    console.log('search');
     goBackArrow.classList.remove('inactive');
     mainMovieContainer.classList.add('inactive');
     mainCurrentMovieContainer.classList.add('inactive');
@@ -53,10 +55,15 @@ function searchPage() {
     searchResultsView.classList.remove('inactive');
     movieDetailView.classList.add('inactive');
     mainSearchByCategorie.classList.add('inactive');
+
+    const info = location.hash.split('=');
+    if (info[1] !== '') {
+        console.log(info);
+        getMoviesBySearch(info[1]);
+    }
 }
 
 function moviePage() {
-    console.log('movie');
     goBackArrow.classList.remove('inactive');
     mainMovieContainer.classList.add('inactive');
     mainCurrentMovieContainer.classList.add('inactive');
@@ -66,10 +73,12 @@ function moviePage() {
     searchResultsView.classList.add('inactive');
     movieDetailView.classList.remove('inactive');
     mainSearchByCategorie.classList.add('inactive');
+
+    const info = location.hash.split('=');
+    getMovieDetail(info[1]);
 }
 
 function categoryPage() {
-    console.log('category');
     goBackArrow.classList.remove('inactive');
     mainMovieContainer.classList.add('inactive');
     mainCurrentMovieContainer.classList.add('inactive');

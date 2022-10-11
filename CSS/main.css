@@ -169,15 +169,31 @@ h2 {
 
 /* *SEARCH */
 
+.form__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--secondary-color);
+    border-radius: 8px;
+    width: max-content;
+    margin: 0 auto 24px auto;
+    overflow: hidden;
+}
+
 .search__input {
     display: block;
     padding: 8px;
-    margin: 0 auto 24px;
     background-color: var(--primary-color);
     outline: none;
-    border: 1px solid var(--secondary-color);
+    border: none;
     color: var(--secondary-color);
-    border-radius: 8px;
+}
+
+.form__container i {
+    display: block;
+    font-size: 1.4rem;
+    margin: 0 auto;
+    padding-right: 4px;
 }
 
 .results__container {

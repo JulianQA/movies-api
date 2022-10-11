@@ -14,14 +14,24 @@ const mainSearchByCategorie = $('.categories__view');
 
 //* Search
 const searchResultsView = $('.search__results');
+const resultsSection = $('.results__section');
 
 //*Movie details
 const movieDetailView = $('.movie__details');
+const movieTitle = $('.detail__title');
+const movieRating = $('.detail__rating');
+const movieDescripition = $('.detail__description');
+const movieCategories = $('.movie__details .categories__list');
+const movieImg = $('.detail__img');
+const relatedMoviesContainer = $('.related__movies__container')
 
 //* Elements
 
 const goBackArrow = $('.fa-arrow-left');
 const goToSearchView = $('.search-option');
-const goToHomeView = $('.menu-p__option')
+const goToHomeView = $('.menu-p__option');
+const searchResults = $('.form__container i');
+const searchInput = $('.search__input');
+
 
 
