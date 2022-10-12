@@ -55,12 +55,10 @@ async function getRelatedMovies(id) {
     renderMovieContainer(relatedMoviesContainer, movies);
 }
 function renderCurrentMovies(movies) {
-    currentMoviesContainer.innerHTML = '';
     renderMovieContainer(currentMoviesContainer, movies);
 }
 
 function renderTrendingMovies(movies) {
-    trendingMoviesContainer.innerHTML = '';
     renderMovieContainer(trendingMoviesContainer, movies);
 }
 
@@ -93,7 +91,6 @@ function renderCategories(categories) {
 };
 
 function renderMoviesByCategory(name, movies) {
-    mainSearchByCategorie.innerHTML = '';
     const categoryTitle = document.createElement('h2');
     categoryTitle.textContent = name;
 
@@ -106,7 +103,6 @@ function renderMoviesByCategory(name, movies) {
 }
 
 function renderMoviesBySearch(movies) {
-    resultsSection.innerHTML = '';
     const resultsContainer = document.createElement('div');
     resultsContainer.classList.add('results__container');
 
@@ -124,6 +120,7 @@ function renderMovieDetail(movie) {
     getRelatedMovies(movie.id);
 }
 function renderMovieContainer(container, movies) {
+    container.innerHTML = '';
     movies.forEach(movie => {
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie__container');

@@ -95,6 +95,14 @@ header>i.inactive {
     border-radius: 4px;
 }
 
+.main-movie--loading {
+    background-color: #9e9e9e;
+    width: 320px;
+    height: 480px;
+    border-radius: 10px;
+    animation: loading-screen 1.2s infinite;
+}
+
 /* * CURRENT MOVIES */
 
 main {
@@ -138,6 +146,18 @@ h2 {
     width: auto;
     height: 100%;
     border-radius: 10px;
+}
+
+.movie__container:hover {
+    cursor: pointer;
+}
+
+.movie__container--loading {
+    background-color: #9e9e9e;
+    min-width: 130px;
+    min-height: 190px;
+    border-radius: 10px;
+    animation: loading-screen 1.2s infinite;
 }
 
 /* *CATEGORIES */
@@ -256,4 +276,18 @@ h2 {
 
 .related__movies {
     margin-left: 12px;
+}
+
+/* *ANIMATION */
+
+@keyframes loading-screen {
+
+    0%,
+    100% {
+        opacity: 100%;
+    }
+
+    50% {
+        opacity: 0%;
+    }
 }
