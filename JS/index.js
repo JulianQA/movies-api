@@ -1,6 +1,15 @@
 const URL_API = 'https://api.themoviedb.org/3';
 const URL_IMAGES = 'https://image.tmdb.org/t/p/w300';
 
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const url = entry.target.getAttribute('data-img');
+            entry.target.setAttribute('src', url);
+        }
+    })
+})
 async function fecthData(urlApi, queryParameters = '') {
     const response = await fetch(`${urlApi}?api_key=${API_KEY}${queryParameters}`);
     const data = await response.json();
@@ -55,11 +64,11 @@ async function getRelatedMovies(id) {
     renderMovieContainer(relatedMoviesContainer, movies);
 }
 function renderCurrentMovies(movies) {
-    renderMovieContainer(currentMoviesContainer, movies);
+    renderMovieContainer(currentMoviesContainer, movies, true);
 }
 
 function renderTrendingMovies(movies) {
-    renderMovieContainer(trendingMoviesContainer, movies);
+    renderMovieContainer(trendingMoviesContainer, movies, true);
 }
 
 function renderTopMovie(movies) {
@@ -99,7 +108,7 @@ function renderMoviesByCategory(name, movies) {
 
     mainSearchByCategorie.append(categoryTitle, resultsContainer);
 
-    renderMovieContainer(resultsContainer, movies);
+    renderMovieContainer(resultsContainer, movies, true);
 }
 
 function renderMoviesBySearch(movies) {
@@ -108,7 +117,7 @@ function renderMoviesBySearch(movies) {
 
     resultsSection.append(resultsContainer);
 
-    renderMovieContainer(resultsContainer, movies);
+    renderMovieContainer(resultsContainer, movies, true);
 }
 
 function renderMovieDetail(movie) {
@@ -119,7 +128,7 @@ function renderMovieDetail(movie) {
     createcategories(movieCategories, movie.genres)
     getRelatedMovies(movie.id);
 }
-function renderMovieContainer(container, movies) {
+function renderMovieContainer(container, movies, lazyLoad = false) {
     container.innerHTML = '';
     movies.forEach(movie => {
         const movieContainer = document.createElement('div');
@@ -128,8 +137,15 @@ function renderMovieContainer(container, movies) {
             location.hash = '#movie=' + movie.id;
         })
         const movieImg = document.createElement('img');
-        movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path}`);
+        movieImg.setAttribute(lazyLoad ? 'data-img' : 'src', `${URL_IMAGES}${movie.poster_path}`);
         movieImg.setAttribute('alt', movie.title);
+        movieImg.addEventListener('error', () => {
+            movieImg.setAttribute('src', 'https://bitsofco.de/content/images/2018/12/broken-1.png');
+            movieImg.style.objectFit = 'cover';
+        })
+        if (lazyLoad) {
+            observer.observe(movieImg)
+        }
 
         movieContainer.append(movieImg);
         container.append(movieContainer);
