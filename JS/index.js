@@ -47,20 +47,26 @@ async function getMovieByCategory(name, id) {
     renderMoviesByCategory(name, movies);
 }
 
-async function getMoviesBySearch(query, page = 1) {
-    const response = await fecthData(`${URL_API}/search/movie`, `&query=${query}&page=${page}`);
+async function getMoviesBySearch(query) {
+    const response = await fecthData(`${URL_API}/search/movie`, `&query=${query}`);
     const movies = response.results;
-    renderMoviesBySearch(movies, page === 1);
-
-    const btn = document.createElement('button');
-    btn.textContent = 'More';
-    resultsSection.append(btn);
-    btn.addEventListener('click', () => {
-        getMoviesBySearch(query, page + 1);
-        btn.remove();
-    })
+    maxPage = response.total_pages;
+    renderMoviesBySearch(movies, { clean: true });
 }
+function getPaginatedBySearch(query) {
+    return async function () {
+        const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+        const isReadyToScroll = scrollTop + clientHeight >= scrollHeight - 15;
+        const isAtMaxPage = page <= maxPage;
 
+        if (isReadyToScroll && isAtMaxPage) {
+            page++;
+            const response = await fecthData(`${URL_API}/discover/movie`, `&query=${query}&page=${page}`);
+            const movies = response.results;
+            renderMoviesBySearch(movies, false);
+        }
+    }
+}
 async function getMovieDetail(id) {
     const response = await fecthData(`${URL_API}/movie/${id}`);
     renderMovieDetail(response);
@@ -72,18 +78,27 @@ async function getRelatedMovies(id) {
     renderMovieContainer(relatedMoviesContainer, movies);
 }
 
-async function getMovieByCategory(name, id, page = 1) {
-    const response = await fecthData(`${URL_API}/discover/movie`, `&with_genres=${id}&page=${page}`);
+async function getMovieByCategory(name, id) {
+    const response = await fecthData(`${URL_API}/discover/movie`, `&with_genres=${id}`);
     const movies = response.results;
-    renderMoviesByCategory(name, movies, page === 1);
+    maxPage = response.total_pages;
+    renderMoviesByCategory(name, movies, { clean: true });
+}
 
-    const btn = document.createElement('button');
-    btn.textContent = 'More';
-    categoryView.append(btn);
-    btn.addEventListener('click', () => {
-        getMovieByCategory(name, id, page + 1);
-        btn.remove();
-    })
+
+function getPaginatedByCategory(name, id) {
+    return async function () {
+        const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+        const isReadyToScroll = scrollTop + clientHeight >= scrollHeight - 15;
+        const isAtMaxPage = page <= maxPage;
+
+        if (isReadyToScroll && isAtMaxPage) {
+            page++;
+            const response = await fecthData(`${URL_API}/discover/movie`, `&with_genres=${id}&page=${page}`);
+            const movies = response.results;
+            renderMoviesByCategory(name, movies, false);
+        }
+    }
 }
 function renderCurrentMovies(movies) {
     renderMovieContainer(currentMoviesContainer, movies, { lazyLoad: true });

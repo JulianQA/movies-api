@@ -1,3 +1,6 @@
+let infiniteScroll;
+let page = 1;
+let maxPage;
 goBackArrow.addEventListener('click', () => {
     history.back();
 });
@@ -12,8 +15,13 @@ searchResults.addEventListener('click', () => {
 })
 window.addEventListener('DOMContentLoaded', navigation, false);
 window.addEventListener('hashchange', navigation, false);
+window.addEventListener('scroll', infiniteScroll, false);
 
 function navigation() {
+    if (infiniteScroll) {
+        window.removeEventListener('scroll', infiniteScroll, { passive: false });
+        infiniteScroll = undefined;
+    }
     if (location.hash.startsWith('#search=')) {
         searchPage();
     } else if (location.hash.startsWith('#movie=')) {
@@ -25,6 +33,10 @@ function navigation() {
     }
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+
+    if (infiniteScroll) {
+        window.addEventListener('scroll', infiniteScroll, { passive: false });
+    }
 }
 
 function homePage() {
@@ -59,6 +71,7 @@ function searchPage() {
     const info = location.hash.split('=');
     if (info[1] !== '') {
         getMoviesBySearch(info[1]);
+        infiniteScroll = getPaginatedBySearch(info[1]);
     }
 }
 
@@ -91,4 +104,6 @@ function categoryPage() {
     const [categoryName, categoryId] = location.hash.split('=')[1].split('-');
 
     getMovieByCategory(categoryName, categoryId);
+
+    infiniteScroll = getPaginatedByCategory(categoryName, categoryId);
 }
