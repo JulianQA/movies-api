@@ -58,7 +58,6 @@ function searchPage() {
 
     const info = location.hash.split('=');
     if (info[1] !== '') {
-        console.log(info);
         getMoviesBySearch(info[1]);
     }
 }

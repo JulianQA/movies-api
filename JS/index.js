@@ -47,10 +47,18 @@ async function getMovieByCategory(name, id) {
     renderMoviesByCategory(name, movies);
 }
 
-async function getMoviesBySearch(query) {
-    const response = await fecthData(`${URL_API}/search/movie`, `&query=${query}`);
+async function getMoviesBySearch(query, page = 1) {
+    const response = await fecthData(`${URL_API}/search/movie`, `&query=${query}&page=${page}`);
     const movies = response.results;
-    renderMoviesBySearch(movies);
+    renderMoviesBySearch(movies, page === 1);
+
+    const btn = document.createElement('button');
+    btn.textContent = 'More';
+    resultsSection.append(btn);
+    btn.addEventListener('click', () => {
+        getMoviesBySearch(query, page + 1);
+        btn.remove();
+    })
 }
 
 async function getMovieDetail(id) {
@@ -63,12 +71,26 @@ async function getRelatedMovies(id) {
     const movies = response.results;
     renderMovieContainer(relatedMoviesContainer, movies);
 }
+
+async function getMovieByCategory(name, id, page = 1) {
+    const response = await fecthData(`${URL_API}/discover/movie`, `&with_genres=${id}&page=${page}`);
+    const movies = response.results;
+    renderMoviesByCategory(name, movies, page === 1);
+
+    const btn = document.createElement('button');
+    btn.textContent = 'More';
+    categoryView.append(btn);
+    btn.addEventListener('click', () => {
+        getMovieByCategory(name, id, page + 1);
+        btn.remove();
+    })
+}
 function renderCurrentMovies(movies) {
-    renderMovieContainer(currentMoviesContainer, movies, true);
+    renderMovieContainer(currentMoviesContainer, movies, { lazyLoad: true });
 }
 
 function renderTrendingMovies(movies) {
-    renderMovieContainer(trendingMoviesContainer, movies, true);
+    renderMovieContainer(trendingMoviesContainer, movies, { lazyLoad: true });
 }
 
 function renderTopMovie(movies) {
@@ -79,6 +101,9 @@ function renderTopMovie(movies) {
     movieImg.setAttribute('src', `${URL_IMAGES}${movie.poster_path}`);
     movieImg.setAttribute('alt', movie.title);
     movieImg.setAttribute('id', 'img-main');
+    movieImg.addEventListener('click', () => {
+        location.hash = '#movie=' + movie.id;
+    })
 
     const detailDiv = document.createElement('div');
     detailDiv.classList.add('movie__info');
@@ -99,25 +124,14 @@ function renderCategories(categories) {
     createcategories(categoriesContainer, categories);
 };
 
-function renderMoviesByCategory(name, movies) {
-    const categoryTitle = document.createElement('h2');
+function renderMoviesByCategory(name, movies, toClean) {
     categoryTitle.textContent = name;
+    renderMovieContainer(categoryView, movies, { lazyLoad: true, clean: toClean });
 
-    const resultsContainer = document.createElement('div');
-    resultsContainer.classList.add('results__container');
-
-    mainSearchByCategorie.append(categoryTitle, resultsContainer);
-
-    renderMovieContainer(resultsContainer, movies, true);
 }
 
-function renderMoviesBySearch(movies) {
-    const resultsContainer = document.createElement('div');
-    resultsContainer.classList.add('results__container');
-
-    resultsSection.append(resultsContainer);
-
-    renderMovieContainer(resultsContainer, movies, true);
+function renderMoviesBySearch(movies, toClean) {
+    renderMovieContainer(resultsSection, movies, { lazyLoad: true, clean: toClean });
 }
 
 function renderMovieDetail(movie) {
@@ -128,8 +142,10 @@ function renderMovieDetail(movie) {
     createcategories(movieCategories, movie.genres)
     getRelatedMovies(movie.id);
 }
-function renderMovieContainer(container, movies, lazyLoad = false) {
-    container.innerHTML = '';
+function renderMovieContainer(container, movies, { lazyLoad = false, clean = true }) {
+    if (clean) {
+        container.innerHTML = '';
+    }
     movies.forEach(movie => {
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie__container');

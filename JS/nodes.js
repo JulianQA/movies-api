@@ -14,7 +14,7 @@ const mainSearchByCategorie = $('.categories__view');
 
 //* Search
 const searchResultsView = $('.search__results');
-const resultsSection = $('.results__section');
+const resultsSection = $('.results__section .results__container');
 
 //*Movie details
 const movieDetailView = $('.movie__details');
@@ -25,6 +25,10 @@ const movieCategories = $('.movie__details .categories__list');
 const movieImg = $('.detail__img');
 const relatedMoviesContainer = $('.related__movies__container')
 
+
+//* Category 
+const categoryTitle = $('.categories__view h2');
+const categoryView = $('.categories__view .results__container');
 //* Elements
 
 const goBackArrow = $('.fa-arrow-left');
