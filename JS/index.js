@@ -75,7 +75,7 @@ async function getMovieDetail(id) {
 async function getRelatedMovies(id) {
     const response = await fecthData(`${URL_API}/movie/${id}/similar`);
     const movies = response.results;
-    renderMovieContainer(relatedMoviesContainer, movies);
+    renderMovieContainer(relatedMoviesContainer, movies, { lazyLoad: true });
 }
 
 async function getMovieByCategory(name, id) {
@@ -157,16 +157,13 @@ function renderMovieDetail(movie) {
     createcategories(movieCategories, movie.genres)
     getRelatedMovies(movie.id);
 }
-function renderMovieContainer(container, movies, { lazyLoad = false, clean = true }) {
+function renderMovieContainer(container, movies, { lazyLoad = false, clean = true } = {}) {
     if (clean) {
         container.innerHTML = '';
     }
     movies.forEach(movie => {
         const movieContainer = document.createElement('div');
         movieContainer.classList.add('movie__container');
-        movieContainer.addEventListener('click', () => {
-            location.hash = '#movie=' + movie.id;
-        })
         const movieImg = document.createElement('img');
         movieImg.setAttribute(lazyLoad ? 'data-img' : 'src', `${URL_IMAGES}${movie.poster_path}`);
         movieImg.setAttribute('alt', movie.title);
@@ -174,11 +171,27 @@ function renderMovieContainer(container, movies, { lazyLoad = false, clean = tru
             movieImg.setAttribute('src', 'https://bitsofco.de/content/images/2018/12/broken-1.png');
             movieImg.style.objectFit = 'cover';
         })
+        movieImg.addEventListener('click', () => {
+            location.hash = '#movie=' + movie.id;
+        })
+        const likeBtn = document.createElement('div')
+        likeBtn.classList.add('like__button');
+        const heartIcon = document.createElement('i');
+        heartIcon.setAttribute('class', 'fa-solid fa-heart');
+
+        savedLikes()[movie.id] && likeBtn.classList.add('like__button--liked');
+
+        likeBtn.addEventListener('click', () => {
+            likeBtn.classList.toggle('like__button--liked');
+            likeMovie(movie);
+            getLikedMovies();
+        });
+        likeBtn.append(heartIcon);
         if (lazyLoad) {
             observer.observe(movieImg)
         }
 
-        movieContainer.append(movieImg);
+        movieContainer.append(movieImg, likeBtn);
         container.append(movieContainer);
     });
 }
@@ -192,4 +205,31 @@ function createcategories(container, categories) {
         categorieTitle.addEventListener('click', () => location.hash = `#category=${categorie.name}-${categorie.id}`);
         container.append(categorieTitle);
     })
+}
+
+function savedLikes() {
+    const itemLs = JSON.parse(localStorage.getItem('listOfMovies'));
+    let movies;
+    if (itemLs) {
+        movies = itemLs;
+    } else {
+        movies = {};
+    }
+    return movies;
+}
+
+
+function likeMovie(movie) {
+    const moviesLiked = savedLikes();
+    if (moviesLiked[movie.id]) {
+        delete moviesLiked[movie.id]
+    } else {
+        moviesLiked[movie.id] = movie;
+    }
+    localStorage.setItem('listOfMovies', JSON.stringify(moviesLiked));
+}
+
+function getLikedMovies() {
+    const movies = Object.values(savedLikes());
+    renderMovieContainer(likedMoviesContainer, movies, { lazyLoad: true });
 }

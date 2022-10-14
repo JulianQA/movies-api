@@ -45,6 +45,7 @@ function homePage() {
     mainCurrentMovieContainer.classList.remove('inactive');
     mainTrendingMovieContainer.classList.remove('inactive');
     mainCategoriesContainer.classList.remove('inactive');
+    mainLikedMovies.classList.remove('inactive');
 
     searchResultsView.classList.add('inactive');
     movieDetailView.classList.add('inactive');
@@ -56,6 +57,7 @@ function homePage() {
     getTrendingMovies();
     getTopMovie();
     getCategories();
+    getLikedMovies()
 }
 function searchPage() {
     goBackArrow.classList.remove('inactive');
@@ -63,6 +65,8 @@ function searchPage() {
     mainCurrentMovieContainer.classList.add('inactive');
     mainTrendingMovieContainer.classList.add('inactive');
     mainCategoriesContainer.classList.add('inactive');
+    mainLikedMovies.classList.add('inactive');
+
 
     searchResultsView.classList.remove('inactive');
     movieDetailView.classList.add('inactive');
@@ -81,6 +85,7 @@ function moviePage() {
     mainCurrentMovieContainer.classList.add('inactive');
     mainTrendingMovieContainer.classList.add('inactive');
     mainCategoriesContainer.classList.add('inactive');
+    mainLikedMovies.classList.add('inactive');
 
     searchResultsView.classList.add('inactive');
     movieDetailView.classList.remove('inactive');
@@ -96,6 +101,7 @@ function categoryPage() {
     mainCurrentMovieContainer.classList.add('inactive');
     mainTrendingMovieContainer.classList.add('inactive');
     mainCategoriesContainer.classList.add('inactive');
+    mainLikedMovies.classList.add('inactive');
 
     searchResultsView.classList.add('inactive');
     movieDetailView.classList.add('inactive');

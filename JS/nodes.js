@@ -5,12 +5,16 @@ const currentMoviesContainer = $('.current-movies__container');
 const trendingMoviesContainer = $('.trending-movies__container');
 const topMovieContainer = $('.main-movie__container');
 const categoriesContainer = $('.categories__list');
+const likedMoviesContainer = $('.liked-movies__container');
+
 //* contenedores principales
 const mainMovieContainer = $('.main__movie');
 const mainCurrentMovieContainer = $('.current-movies');
 const mainTrendingMovieContainer = $('.trending-movies');
 const mainCategoriesContainer = $('.categories');
 const mainSearchByCategorie = $('.categories__view');
+const mainLikedMovies = $('.liked__movies');
+
 
 //* Search
 const searchResultsView = $('.search__results');
